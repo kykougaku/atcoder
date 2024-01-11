@@ -7,27 +7,13 @@ int main (){
     cin >> A >> M>> L >> R;
     int64_t ans;
 
-    if(L==R){
-        if((L-A)%M==0)
-            ans = 1;
-        else
-        ans = 0;
-    }
-    else{
-        if(L>A){
-            ans =(R-A)/M -(L-A)/M ;
-            
-        }
-        else if(R<A){
-            ans =  (A-L)/M -(A-R)/M ;
-        }
-        else{
-ans = (A-L)/M + (R-A)/M +1;
-        }
-        
-    }
+    ans+=(((R-A)%M+M)%M+R)/M;
+    ans-=(((L-A)%M+M)%M+L)/M;
 
-    cout << ans<< endl;
+    if (((L-A)%M)==0) ans++;
+
+    if(ans>0)cout << ans << endl;
+    else cout << 0 << endl;
 
     return 0;
 }
