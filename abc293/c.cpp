@@ -1,19 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int sum = 0;
+int dfs(int hv, int wv, int h, int w, vector<vector<int>> &a, set<int> s){
+    int ans = 0;
+    if(hv >= h || wv >= w || s.find(a.at(hv).at(wv)) != s.end()) return 0;
 
-int search(int h, int w, vector<vector<int>>& a){
-    set <int> s;
-    if(h==0 && w==0){
-        return 1;
-    }
-    else if (h-1>=0){
-        s.insert(search(h-1, w, a));
-    }
-    else if (w-1>=0){
-        s.insert(search(h, w-1, a));
-    }
+    if(hv == h-1 && wv == w-1 && s.find(a.at(hv).at(wv)) == s.end()) return 1;
+
+    s.insert(a.at(hv).at(wv));
+    ans += dfs(hv+1, wv, h, w, a, s);
+    ans += dfs(hv, wv+1, h, w, a, s);
+
+    return ans;
 }
 int main(){
     int h,w;
@@ -24,6 +22,10 @@ int main(){
             cin >> a.at(i).at(j);
         }
     }
+
+    int ans;
+    ans = dfs(0, 0, h, w, a, set<int>());
+    cout << ans << endl;
 
 
     return 0;
