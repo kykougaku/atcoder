@@ -11,15 +11,15 @@ int main (){
         int tmp;
         cin >> tmp;
         tmp--;
-        if(tmp == -2) ans[0] = i;
-        a[tmp] = i;
+        if(tmp == -2) ans.at(0) = i;
+        else a.at(tmp) = i;
     }
 
-    for(int i = 0; i < n; i++){
-        ans[i+1] = a[ans[i]];
+    for(int i = 0; i < n-1; i++){
+        ans.at(i+1) = a.at(ans[i]);
     }
     for(int i = 0; i < n; i++){
-        printf("%d ",ans[i]+1);
+        cout<<ans.at(i)+1<<" ";
     }
 
 }
