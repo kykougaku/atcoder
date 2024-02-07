@@ -2,9 +2,8 @@
 
 using namespace std;
 
-int bfs(vector<vector<char>> map, vector<int> start, vector<vector<int>> dist, int n){
+int bfs(vector<vector<vector<vector<char>>>> map, vector<int> start, int n){
     queue<vector<int>> que;
-    dist.at(start.at(0)).at(start.at(1)) = 0;
     que.push(start);
 
     while(!que.empty()){
@@ -34,8 +33,7 @@ int main (){
     int n;
     cin >> n;
     vector <int> start(2);
-    vector<vector<char>> map(n, vector<char>(n));
-    vector<vector<int>> dist(n, vector<int>(n,-1));
+    vector<vector<vector<vector<char>>>> map(n, vector<char>(n));
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
             cin >> map.at(i).at(j);
@@ -45,7 +43,7 @@ int main (){
             }
         }
     }
-    int ans = bfs(map, start, dist,n);
+    int ans = bfs(map, start, n);
 
     cout << ans << endl;
     return 0;
