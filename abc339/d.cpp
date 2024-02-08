@@ -38,17 +38,23 @@ int main (){
         for(int i = -1; i < 2; i++){
             for(int j = -1; j < 2; j++){
                 if(i == 0 || j == 0){
-                    if(x+i >= 0 && x+i < n && y+j >= 0 && y+j < n && map.at(x+i).at(y+j) != '#' && a+i >= 0 && a+i < n && b+j >= 0 && b+j < n && map.at(a+i).at(b+j) != '#' && dist.at(x+i).at(y+j).at(a+i).at(b+j) == 10000000){   
-                        dist.at(x+i).at(y+j).at(a+i).at(b+j) = dist.at(x).at(y).at(a).at(b) + 1;
-                        que.push({x+i, y+j, a+i, b+j});
+                    if(x+i >= 0 && x+i < n && y+j >= 0 && y+j < n && map.at(x+i).at(y+j) != '#' && a+i >= 0 && a+i < n && b+j >= 0 && b+j < n && map.at(a+i).at(b+j) != '#'){   
+                        if(dist.at(x+i).at(y+j).at(a+i).at(b+j) == 10000000){
+                            dist.at(x+i).at(y+j).at(a+i).at(b+j) = dist.at(x).at(y).at(a).at(b) + 1;
+                            que.push({x+i, y+j, a+i, b+j});
+                        }
                     }
-                    else if(x+i >= 0 && x+i < n && y+j >= 0 && y+j < n && map.at(x+i).at(y+j) != '#' && dist.at(x+i).at(y+j).at(a).at(b) == 10000000){
-                        dist.at(x+i).at(y+j).at(a).at(b) = dist.at(x).at(y).at(a).at(b) + 1;
-                        que.push({x+i, y+j, a, b});
+                    else if(x+i >= 0 && x+i < n && y+j >= 0 && y+j < n && map.at(x+i).at(y+j) != '#'){
+                        if(dist.at(x+i).at(y+j).at(a).at(b) == 10000000){
+                            dist.at(x+i).at(y+j).at(a).at(b) = dist.at(x).at(y).at(a).at(b) + 1;
+                            que.push({x+i, y+j, a, b});
+                        }
                     }
-                    else if(a+i >= 0 && a+i < n && b+j >= 0 && b+j < n && map.at(a+i).at(b+j) != '#' && dist.at(x).at(y).at(a+i).at(b+j) == 10000000){
-                        dist.at(x).at(y).at(a+i).at(b+j) = dist.at(x).at(y).at(a).at(b) + 1;
-                        que.push({x, y, a+i, b+j});
+                    else if(a+i >= 0 && a+i < n && b+j >= 0 && b+j < n && map.at(a+i).at(b+j) != '#' ){
+                        if(dist.at(x).at(y).at(a+i).at(b+j) == 10000000){
+                            dist.at(x).at(y).at(a+i).at(b+j) = dist.at(x).at(y).at(a).at(b) + 1;
+                            que.push({x, y, a+i, b+j});
+                        }
                     }
                 }
             }
