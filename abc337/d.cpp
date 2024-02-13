@@ -3,86 +3,68 @@
 using namespace std;
 
 int main (){
-    int h, w, k;
+    int h,w,k;
     cin >> h >> w >> k;
-    vector<vector<char>> s(h, vector<char>(w));
-    for(int i =0; i < h; i++){
-        for(int j = 0; j < w; j++){
-            cin >> s[i][j];
-        }
-    }
-    int ans = k;
+    vector<vector<char>> v(h, vector<char>(w));
     for(int i = 0; i < h; i++){
         for(int j = 0; j < w; j++){
-            if(s[i][j] == 'o'){
-                int u = 0;
-                for(int l = 0; l < h; l++){
-                    if(i+l >= h){
-                        u = k;
-                        break;
-                    }
-                    if(s[i+l][j] == 'o')
-                        continue;
-                    else if(s[i+l][j] == '.')
-                        u++;
-                    else{
-                        u = k;
-                        break;}
-                }
+            cin >> v.at(i).at(j);
+        }
+    }
 
-                int d = 0;
-                for(int l = 0; l < h; l++){
-                    if(i-l < 0){
-                        d = k;
-                        break;
-                    }
-                    if(s[i-l][j] == 'o')
-                        continue;
-                    else if(s[i-l][j] == '.')
-                        d++;
-                    else{
-                        d = k;
-                        break;}
-                }
+    int ans = 1000000;
 
-                int r = 0;
-                for(int l = 0; l < w; l++){
-                    if(j+l >= w){
-                        r = k;
-                        break;
-                    }
-                    if(s[i][j+l] == 'o')
-                        continue;
-                    else if(s[i][j+l] == '.')
-                        r++;
-                    else{
-                        r = k;
-                        break;}
-                }
+    for(int i = 0; i < h; i++){
+        int counto = 0;
+        int countdot = 0;
+        for(int j = 0; j < w; j++){
+            if(v.at(i).at(j) == 'x'){
+                counto = 0;
+                countdot = 0;
+            }
+            else if(v.at(i).at(j) == 'o'){
+                counto++;
+                counto = min(counto, k);
+            }
+            else if(v.at(i).at(j) == '.'){
+                countdot++;
+                countdot = min(countdot, k);
+            }
 
-                int ll = 0;
-                for(int l = 0; l < w; l++){
-                    if(j-l < 0){
-                        ll = k;
-                        break;
-                    }
-                    if(s[i][j-l] == 'o')
-                        continue;
-                    else if(s[i][j-l] == '.')
-                        ll++;
-                    else{
-                        ll = k;
-                        break;}
-                }
-
-            
-                ans = min(ans, u);
-                ans = min(ans, d);
-                ans = min(ans, r);
-                ans = min(ans, ll);
+            if(counto+countdot >= k){
+                ans = min(ans, k-counto);
             }
         }
     }
-    cout << ans << endl;
+
+    for(int i = 0; i < w; i++){
+        int counto = 0;
+        int countdot = 0;
+        for(int j = 0; j < h; j++){
+            if(v.at(j).at(i) == 'x'){
+                counto = 0;
+                countdot = 0;
+            }
+            else if(v.at(j).at(i) == 'o'){
+                counto++;
+                counto = min(counto, k);
+            }
+            else if(v.at(j).at(i) == '.'){
+                countdot++;
+                countdot = min(countdot, k);
+            }
+
+            if(counto+countdot >= k){
+                ans = min(ans, k-counto);
+            }
+        }
+    }
+
+    if(ans == 1000000){
+        cout << -1 << endl;
+    }
+    else{
+        cout << ans << endl;
+    }
     return 0;
 }
