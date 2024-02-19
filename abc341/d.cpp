@@ -2,39 +2,54 @@
 
 using namespace std;
 
-long long mygcd(long long a, long long b) {
-    if (b == 0) {
-        return a;
-    } else {
-        return gcd(b, a % b);
-    }
-}
 
 int main (){
     long long n,m,k;
     cin >> n >> m >> k;
-    long long gcd = mygcd(n,m);
-    long long lcm = n*m/gcd;
+    long long lcm = n*m/gcd(n,m);
 
-    vector<long long> ans;
+    long long nn = lcm/n;
+    long long mm = lcm/m;
 
-    for(long long i=n; i<lcm; i+=n){
-            ans.push_back(i);
-    }
-    for(long long i=m; i<lcm; i+=m){
-            ans.push_back(i);
-    }
+    long long size = nn+mm-2;
+    long long ks = k/size;
+    long long kmods = k%size;
 
-    sort(ans.begin(), ans.end());
-    long long size = ans.size();
-    long long count = k/size;
-    long long mod = k%size;
+    long long index = 1;
+    long long ni = 1;
+    long long mi = 1;
+    long long last = 0;
+    if(kmods != 0){
+        while(true){
+            
+            if(ni*n < mi*m){
+                last = ni*n;
+                ni++;
+            }
+            else{
+                last = mi*m;
+                mi++;
+            }
+            if(index == kmods){
+                break;
+            }
+            index++;
+        }
 
-    if(mod == 0){
-        cout << ans.at(size-1)+lcm*(count-1) << endl;
+        cout << ks*lcm+last << endl;
+
+
         return 0;
     }
+    else{
 
-    cout << ans.at(mod-1)+lcm*count << endl;
-    return 0;
+        if((mm-1)*m < (nn-1)*n){
+            last = (nn-1)*n;
+        }else{
+            last = (mm-1)*m;
+        }
+
+        cout << (ks-1)*lcm+last << endl;
+        return 0;   
+    }
 }
