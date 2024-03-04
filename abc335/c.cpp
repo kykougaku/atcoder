@@ -6,45 +6,43 @@ int main (){
     int n,q;
     cin >> n >> q;
     vector<int> a(q);
-    vector<char> b(q);
+    vector<int> b(q);
+    vector<char> c(q);
     for(int i=0; i<q; i++){
-        cin >> a.at(i) >> b.at(i);
+        cin >> a.at(i);
+        if(a.at(i) == 1){
+            cin >> c.at(i);
+        }
+        else{
+            cin >> b.at(i);
+        }
+    }
+    deque<pair<int, int>> dragon;
+    for(int i=0; i<n; i++){
+        dragon.push_back(make_pair(i+1, 0));
     }
 
-    vector<int> atamax(q);
-    vector<int> atamay(q);
-    atamax.at(0) = 1;
-    atamay.at(0) = 0;
-    int s = 0;
     for(int i=0; i<q; i++){
         if(a.at(i) == 1){
-            s++;
-            if(b.at(i) == 'L'){
-                atamax.at(s) = atamax.at(s-1) - 1;
-                atamay.at(s) = atamay.at(s-1);
-            }
-            else if(b.at(i) == 'R'){
-                atamax.at(s) = atamax.at(s-1) + 1;
-                atamay.at(s) = atamay.at(s-1);
-            }
-            else if(b.at(i) == 'U'){
-                atamax.at(s) = atamax.at(s-1);
-                atamay.at(s) = atamay.at(s-1) + 1;
-            }
-            else if(b.at(i) == 'D'){
-                atamax.at(s) = atamax.at(s-1);
-                atamay.at(s) = atamay.at(s-1) - 1;
-            }
-        }
-        else if(a.at(i) == 2){
-            int bui = int(b.at(i)-'0');
-            if(s<bui){
-                cout << bui-s << " "<<0<<endl;
-            }
-            else{
-                cout << atamax.at(s-bui+1) << " " << atamay.at(s-bui+1) << endl;
-            }
+            int temp_x = dragon.at(0).first;
+            int temp_y = dragon.at(0).second;
 
+            if(c.at(i) == 'R'){
+                dragon.push_front(make_pair(temp_x+1, temp_y));
+            }
+            else if(c.at(i) == 'L'){
+                dragon.push_front(make_pair(temp_x-1, temp_y));
+            }
+            else if(c.at(i) == 'U'){
+                dragon.push_front(make_pair(temp_x, temp_y+1));
+            }
+            else if(c.at(i) == 'D'){
+                dragon.push_front(make_pair(temp_x, temp_y-1));
+            }
+            dragon.pop_back();
+        }
+        else{
+            cout << dragon.at(b.at(i)-1).first << " " << dragon.at(b.at(i)-1).second << endl;
         }
     }
     return 0;
