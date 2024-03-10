@@ -64,9 +64,10 @@ class RMQ{
 
         T query(int a, int b) { return query_sub(a, b, 0, 0, n); }
         T query_sub(int a, int b, int k, int l, int r) {
-            if (r <= a || b <= l) return INF;
+            // k:現在見ているノードの位置  [l,r):dat[k]が表している区間
+            if (r <= a || b <= l) return INF;// 範囲外なら考えない
             else if (a <= l && r <= b) return dat.at(k);
-            else{
+            else{// 一部区間が被る時
                 T vl = query_sub(a, b, k * 2 + 1, l, (l + r) / 2);
                 T vr = query_sub(a, b, k * 2 + 2, (l + r) / 2, r);
                 return fx(vl, vr);
