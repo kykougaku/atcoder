@@ -10,53 +10,53 @@ int main (){
     for(int i = 0; i < n; i++){
         cin >> a.at(i);
     }
-    for(int i = 0; i < n; i++){
-        long long before, after;
-        if(i == 0){
-            before = 0;
-            llist.at(0).at(1) = a.at(i);
-            llist.at(a.at(i)).at(0) = 0;
-            llist.at(a.at(i)).at(1) = a.at(i+1);
-        }
-        else if (i == n-1){
-            after = 0;
-            llist.at(a.at(i)).at(0) = a.at(i-1);
+    int q;
+    cin >> q;
+    vector<long long> t(q), x(q), y(q);
+    for(int i = 0; i < q; i++){
+        cin >> t.at(i);
+        if(t.at(i) == 1){
+            cin >> x.at(i) >> y.at(i);
         }
         else{
-            before = a.at(i-1);
-            after = a.at(i+1);
-            llist.at(a.at(i)).at(0) = before;
-            llist.at(a.at(i)).at(1) = after;
+            cin >> x.at(i);
         }
     }
 
-    int q;
-    cin >> q;
-    for(int i = 0; i < q; i++){
-        long long qu, x, y;
-        cin >> qu;
-        if(qu == 1){
-            cin >> x>> y;
-            llist.at(llist.at(x).at(1)).at(0) = y;
-            llist.at(y).at(1) = llist.at(x).at(1);
-            llist.at(x).at(1) = y;
-            llist.at(y).at(0) = x;
+    if(n == 1){
+        llist[0] = vector<long long>{-1, a.at(0)};
+        llist[a.at(0)] = vector<long long>{0, -1};
+    }
+    else{
+        llist[0] = vector<long long>{-1, a.at(0)};
+        llist[a.at(0)] = vector<long long>{0, a.at(1)};
+        for(int i = 1; i<n-1; i++){
+            llist[a.at(i)] = vector<long long>{a.at(i-1), a.at(i+1)};
+        }
+        llist[a.at(n-1)] = vector<long long>{a.at(n-2), -1};
+    }
+
+    for(int i = 0; i<q; i++){
+        if(t.at(i) == 1){
+            long long ix = x.at(i); long long iy = y.at(i);
+            long long ixn = llist[ix].at(1);
+
+            llist[ix].at(1) = iy;
+            llist[iy] = vector<long long>{ix, ixn};
+            if(ixn!=-1) llist[ixn].at(0) = iy;
         }
         else{
-            cin >> x;
-            long long before = llist.at(x).at(0);
-            long long after = llist.at(x).at(1);
-            llist.at(before).at(1) = after;
-            llist.at(after).at(0) = before;
+            long long ix = x.at(i);
+            long long ixb = llist[ix].at(0); long long ixn = llist[ix].at(1);
+            if(ixb!=-1) llist[ixb].at(1) = ixn;
+            if(ixn!=-1) llist[ixn].at(0) = ixb;
         }
     }
-    long long now = llist.at(0).at(1);
-    while(true){
-        cout << now << endl;
-        now = llist.at(now).at(1);
-        if(now == 0){
-            break;
-        }
-    }
+
+    long long next = llist[0].at(1);
+    while(next != -1){
+        cout << next << " ";
+        next = llist[next].at(1);
+    }   
     return 0;
 }

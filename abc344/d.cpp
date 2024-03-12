@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+const int INF = 1e9;
 
 int main (){
     string t;
@@ -17,19 +18,24 @@ int main (){
             s.at(i).push_back(temp);
         }
     }
+    vector<vector<int>> dp(101, vector<int>(101, INF));
 
-    while(true){
-        int cont = 0;
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < a.at(i); j++){
-                if(t.starts_with(s.at(i).at(j))){
-                    t = t.substr(s.at(i).at(j).size());
-                    cont++;
-                    break;
+    dp.at(0).at(0) = 0;
+
+    for(int j = 1; j<n; j++){
+        for(int i = 0; i<=t.size(); i++){
+            dp.at(i).at(j) = min(dp.at(i).at(j), dp.at(i).at(j-1));
+        }
+
+        for(int i = 0; i<=t.size(); i++){
+            for(auto si: s.at(j)){
+                if(t.substr(i, si.size()) == si){
+                    dp.at(i+si.size()).at(j) = min(dp.at(i+si.size()).at(j), dp.at(i).at(j-1) + 1);
                 }
             }
         }
-        break;
     }
+    cout << dp.at(t.size()).at(n-1) << endl;
+
     return 0;
 }
