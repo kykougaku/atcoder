@@ -3,26 +3,38 @@
 using namespace std;
 
 int main (){
-    int n;
+    long long n;
     cin >> n;
-    vector<int> s(n);
-    for(int i=0; i<n; i++){
-    char temp;
-    cin >> temp;
-    s.at(i) = temp - '0';
+    vector<long long> s(10, 0);
+    for(long long i=0; i<n; i++){
+        char temp;
+        cin >> temp;
+        s.at(temp - '0')++;
     }
-    sort(s.begin(), s.end());
-
     long long ans = 0;
-    do{
-        long long num = 0;
-        for(int i=0; i<n; i++){
-            num = num*10 + s.at(i);
+    for(long long i=0; i<10000000; i++){
+        long long sq = i*i;
+        vector<long long> sql(10, 0);
+        //sqのj桁目を取り出す   
+        string sqs = to_string(sq);
+        for(long long j=0; j<sqs.size(); j++){
+            sql.at(sqs.at(j) - '0')++;
         }
-        long long root = sqrt(num);
-        if(root*root == num) ans++;
-    }while(next_permutation(s.begin(), s.end()));
+        if(n> sqs.size()){
+            sql.at(0) += n-sqs.size();
+        }
 
+        bool flag = true;
+        for(long long j=0; j<10; j++){
+            if(s.at(j) != sql.at(j)){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            ans++;
+        }
+    }
     cout << ans << endl;
     return 0;
 }
