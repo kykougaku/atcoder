@@ -7,5 +7,8 @@ int main (){
     string s;
     cin >> n >> s;
     vector<int> c(n);
+    for(int i = 0; i < n; i++){
+        cin >> c.at(i);
+    }
     return 0;
 }
