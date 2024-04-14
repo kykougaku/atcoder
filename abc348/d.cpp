@@ -47,7 +47,7 @@ long long main (){
         along.at(r.at(i)-1).at(c.at(i)-1) = e.at(i);
     }
 
-    long long si, sj;
+    long long si, sj, ie;
     long long power = 0;
     for(long long i = 0; i < h; i++){
         for(long long j = 0; j < w; j++){
@@ -64,6 +64,11 @@ long long main (){
             }
         }
     }
+    for(int i = 0; i< n; i++){
+        if(r.at(i) == si && c.at(i) == sj){
+            ie = i;
+        }
+    }
 
     vector<vector<long long>> dpmap(h, vector<long long>(w, -1));
 
@@ -75,6 +80,9 @@ long long main (){
                 dpmap.at(r.at(j)-1).at(c.at(j)-1) = min(dpmap.at(r.at(j)-1).at(c.at(j)-1), dist.at(r.at(j)-1).at(c.at(j)-1));
             }
         }
+    }
+    for(int i = 0 ; i<n; i++){
+        ie
     }
 
 
